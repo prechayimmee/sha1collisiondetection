@@ -3,6 +3,8 @@
 * Distributed under the MIT Software License.
 * See accompanying file LICENSE.txt or copy at
 * https://opensource.org/licenses/MIT
+*
+* This file contains the declarations for the SHA-1 collision detection library's functions.
 ***/
 
 #ifndef SHA1DC_SHA1_H
@@ -25,7 +27,6 @@ extern "C" {
 /* sha-1 compression function that takes an already expanded message, and additionally store intermediate states */
 /* only stores states ii (the state between step ii-1 and step ii) when DOSTORESTATEii is defined in ubc_check.h */
 void sha1_compression_states(uint32_t[5], const uint32_t[16], uint32_t[80], uint32_t[80][5]);
-
 /*
 // Function type for sha1_recompression_step_T (uint32_t ihvin[5], uint32_t ihvout[5], const uint32_t me2[80], const uint32_t state[5]).
 // Where 0 <= T < 80
@@ -79,7 +80,12 @@ typedef struct {
 	uint32_t states[80][5];
 } SHA1_CTX;
 
-/* initialize SHA-1 context */
+/* 
+* Initialize SHA-1 context. 
+* This function initializes the SHA-1 context structure for a new hashing operation.
+* Parameters:
+* - SHA1_CTX*: A pointer to the SHA-1 context structure.
+*/
 void SHA1DC_API SHA1DCInit(SHA1_CTX*);
 =========
 /* Initialize SHA-1 context. */
@@ -106,6 +112,16 @@ void SHA1DCSetUseUBC(SHA1_CTX*, int);
 
 /* function to disable or enable the use of Collision Detection */
 /* enabled by default */
+*/
+void SHA1DCSetUseUBC(SHA1_CTX*, int);
+
+/* 
+* Function to disable or enable the use of Collision Detection.
+* Enabled by default.
+* Parameters:
+* - SHA1_CTX*: A pointer to the SHA-1 context structure.
+* - int: A flag to enable (1) or disable (0) the use of Collision Detection.
+*/
 void SHA1DC_API SHA1DCSetUseDetectColl(SHA1_CTX*, int);
 =========
 /*
@@ -121,19 +137,36 @@ void SHA1DCSetUseUBC(SHA1_CTX*, int);
 void SHA1DCSetUseDetectColl(SHA1_CTX*, int);
 
 /* function to disable or enable the detection of reduced-round SHA-1 collisions */
-/* disabled by default */
+* Function to disable or enable the detection of reduced-round SHA-1 collisions.
+* Disabled by default.
+* Parameters:
+* - SHA1_CTX*: A pointer to the SHA-1 context structure.
+* - int: A flag to enable (1) or disable (0) the detection of reduced-round SHA-1 collisions.
+*/
 void SHA1DC_API SHA1DCSetDetectReducedRoundCollision(SHA1_CTX*, int);
 
-/* function to set a callback function, pass NULL to disable */
-/* by default no callback set */
-
+/* 
+* Function to set a callback function, pass NULL to disable.
+* By default no callback set.
+* Parameters:
+* - SHA1_CTX*: A pointer to the SHA-1 context structure.
+* - collision_block_callback: A pointer to the callback function.
+* - void*: A pointer to the callback function's parameter (only if SHA1DC_CALLBACK_USES_PARAM is defined).
+*/
 #ifdef SHA1DC_CALLBACK_USES_PARAM
 void SHA1DC_API SHA1DCSetCallback(SHA1_CTX*, collision_block_callback, void*);
 #else
 void SHA1DC_API SHA1DCSetCallback(SHA1_CTX*, collision_block_callback);
 #endif
 
-/* update SHA-1 context with buffer contents */
+/* 
+* Update SHA-1 context with buffer contents.
+* This function updates the SHA-1 context with the given buffer of data.
+* Parameters:
+* - SHA1_CTX*: A pointer to the SHA-1 context structure.
+* - const char*: A pointer to the buffer of data.
+* - size_t: The size of the buffer of data.
+*/
 void SHA1DC_API SHA1DCUpdate(SHA1_CTX*, const char*, size_t);
 
 /* obtain SHA-1 hash from SHA-1 context */
