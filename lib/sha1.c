@@ -194,6 +194,10 @@
 #ifdef BUILDNOCOLLDETECTSHA1COMPRESSION
 void sha1_compression(uint32_t ihv[5], const uint32_t m[16])
 {
+#if defined(SHA1DC_CUSTOM_SHA1_COMPRESSION)
+// SHA1DC_CUSTOM_SHA1_COMPRESSION is defined. Custom SHA-1 compression function
+#endif /* SHA1DC_CUSTOM_SHA1_COMPRESSION*/
+{
 	uint32_t W[80];
 	uint32_t a,b,c,d,e;
 	unsigned i;
